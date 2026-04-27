@@ -1,0 +1,53 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pigeon-plurals"
+version = "0.1.0"
+description = "Zero-dependency POSIX gettext-style Plural-Forms parser and evaluator with built-in tables for ~30 locales."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "nripankadas07" }]
+requires-python = ">=3.9"
+keywords = [
+    "gettext",
+    "plurals",
+    "plural-forms",
+    "i18n",
+    "l10n",
+    "localization",
+    "translation",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Internationalization",
+    "Topic :: Software Development :: Localization",
+    "Typing :: Typed",
+]
+
+[project.urls]
+Homepage = "https://github.com/nripankadas07/pigeon"
+Issues = "https://github.com/nripankadas07/pigeon/issues"
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "pytest-cov>=4"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+pigeon = ["py.typed"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
