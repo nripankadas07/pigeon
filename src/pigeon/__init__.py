@@ -68,6 +68,7 @@ __all__ = [
     "EvaluationError",
     "UnknownLocaleError",
     "PLURAL_FORMS",
+    "normalise_locale",
 ]
 
 __version__ = "0.1.0"

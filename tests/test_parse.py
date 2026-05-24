@@ -19,7 +19,13 @@ def test_tokenize_whitespace_only_returns_no_tokens():
 
 def test_tokenize_recognises_each_punctuation_kind():
     tokens = tokenize("(  ) ; ? :")
-    assert [token.kind for token in tokens] == ["LPAREN", "RPAREN", "SEMI", "QMARK", "COLON"]
+    assert [token.kind for token in tokens] == [
+        "LPAREN",
+        "RPAREN",
+        "SEMI",
+        "QMARK",
+        "COLON",
+    ]
 
 
 def test_tokenize_two_char_operators_take_priority():
@@ -192,7 +198,9 @@ def test_parse_expression_parens_override_precedence():
 
 def test_parse_expression_ternary_right_associative():
     node = parse_expression("1 ? 2 : 3 ? 4 : 5")
-    assert node == Ternary(IntLit(1), IntLit(2), Ternary(IntLit(3), IntLit(4), IntLit(5)))
+    assert node == Ternary(
+        IntLit(1), IntLit(2), Ternary(IntLit(3), IntLit(4), IntLit(5))
+    )
 
 
 def test_parse_expression_logical_and_or_precedence():

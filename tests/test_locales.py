@@ -78,22 +78,42 @@ def test_select_french_treats_zero_as_singular(n, expected):
     assert pigeon.select("fr", n) == expected
 
 
-@pytest.mark.parametrize("n,expected", [(1, 0), (21, 0), (101, 0), (2, 1), (3, 1), (4, 1), (22, 1), (5, 2), (11, 2), (15, 2)])
+@pytest.mark.parametrize(
+    "n,expected",
+    [
+        (1, 0),
+        (21, 0),
+        (101, 0),
+        (2, 1),
+        (3, 1),
+        (4, 1),
+        (22, 1),
+        (5, 2),
+        (11, 2),
+        (15, 2),
+    ],
+)
 def test_select_russian(n, expected):
     assert pigeon.select("ru", n) == expected
 
 
-@pytest.mark.parametrize("n,expected", [(0, 0), (1, 0), (2, 0), (10, 0), (99, 0), (1000, 0)])
+@pytest.mark.parametrize(
+    "n,expected", [(0, 0), (1, 0), (2, 0), (10, 0), (99, 0), (1000, 0)]
+)
 def test_select_japanese_always_returns_zero(n, expected):
     assert pigeon.select("ja", n) == expected
 
 
-@pytest.mark.parametrize("n,expected", [(0, 0), (1, 1), (2, 2), (3, 3), (10, 3), (11, 4), (100, 5)])
+@pytest.mark.parametrize(
+    "n,expected", [(0, 0), (1, 1), (2, 2), (3, 3), (10, 3), (11, 4), (100, 5)]
+)
 def test_select_arabic_six_categories(n, expected):
     assert pigeon.select("ar", n) == expected
 
 
-@pytest.mark.parametrize("n,expected", [(1, 0), (2, 1), (3, 1), (4, 1), (5, 2), (10, 2), (101, 2)])
+@pytest.mark.parametrize(
+    "n,expected", [(1, 0), (2, 1), (3, 1), (4, 1), (5, 2), (10, 2), (101, 2)]
+)
 def test_select_polish(n, expected):
     assert pigeon.select("pl", n) == expected
 

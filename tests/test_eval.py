@@ -10,6 +10,7 @@ import pigeon
 def _eval(expression, n):
     from pigeon._eval import evaluate_node
     from pigeon._parser import parse_expression
+
     return evaluate_node(parse_expression(expression), abs(n))
 
 
@@ -35,12 +36,14 @@ def test_eval_modulo_basic():
 
 def test_eval_division_negative_left_operand():
     from pigeon._eval import BinaryOp, IntLit, evaluate_node
+
     expression = BinaryOp("/", IntLit(-7), IntLit(2))
     assert evaluate_node(expression, 0) == -3
 
 
 def test_eval_modulo_negative_left_operand_keeps_dividend_sign():
     from pigeon._eval import BinaryOp, IntLit, evaluate_node
+
     expression = BinaryOp("%", IntLit(-7), IntLit(2))
     assert evaluate_node(expression, 0) == -1
 

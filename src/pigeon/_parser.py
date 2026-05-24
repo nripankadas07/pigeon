@@ -45,15 +45,25 @@ def tokenize(source: str) -> list[Token]:
             index += 1
             continue
         if char == ";":
-            tokens.append(Token("SEMI", ";", index)); index += 1; continue
+            tokens.append(Token("SEMI", ";", index))
+            index += 1
+            continue
         if char == "(":
-            tokens.append(Token("LPAREN", "(", index)); index += 1; continue
+            tokens.append(Token("LPAREN", "(", index))
+            index += 1
+            continue
         if char == ")":
-            tokens.append(Token("RPAREN", ")", index)); index += 1; continue
+            tokens.append(Token("RPAREN", ")", index))
+            index += 1
+            continue
         if char == "?":
-            tokens.append(Token("QMARK", "?", index)); index += 1; continue
+            tokens.append(Token("QMARK", "?", index))
+            index += 1
+            continue
         if char == ":":
-            tokens.append(Token("COLON", ":", index)); index += 1; continue
+            tokens.append(Token("COLON", ":", index))
+            index += 1
+            continue
         if char.isdigit():
             literal, index = _read_integer(source, index)
             tokens.append(Token("INT", literal, index - len(literal)))
@@ -64,7 +74,9 @@ def tokenize(source: str) -> list[Token]:
             continue
         op, index = _read_operator(source, index)
         if op is None:
-            raise ParseError(f"unexpected character {char!r} at position {index}", index)
+            raise ParseError(
+                f"unexpected character {char!r} at position {index}", index
+            )
         tokens.append(Token("OP", op, index - len(op)))
     return tokens
 
@@ -138,6 +150,7 @@ def parse_expression(source: str) -> Node:
 
 def select_index(compiled: Compiled, n: int | float) -> int:
     from ._eval import evaluate_node
+
     integer_n = _coerce_n(n)
     raw = evaluate_node(compiled.expression, integer_n)
     if raw < 0:
@@ -187,23 +200,36 @@ class _Parser:
     def _expect(self, kind: str, text: str | None = None) -> Token:
         token = self._peek()
         if token is None:
-            raise ParseError(f"unexpected end of input (expected {text or kind})", len(self._source))
+            raise ParseError(
+                f"unexpected end of input (expected {text or kind})", len(self._source)
+            )
         if token.kind != kind or (text is not None and token.text != text):
-            raise ParseError(f"expected {text or kind} at position {token.position}, got {token.text!r}", token.position)
+            raise ParseError(
+                f"expected {text or kind} at position {token.position}, got {token.text!r}",
+                token.position,
+            )
         return self._consume()
 
     def expect_eof(self) -> None:
         token = self._peek()
         if token is not None:
-            raise ParseError(f"unexpected trailing token {token.text!r} at position {token.position}", token.position)
+            raise ParseError(
+                f"unexpected trailing token {token.text!r} at position {token.position}",
+                token.position,
+            )
 
     def parse_plural_form(self) -> Compiled:
         nplurals_keyword = self._expect("IDENT", "nplurals")
         self._expect("OP", "=")
         nplurals_token = self._expect("INT")
-        nplurals_value = _parse_int_literal(nplurals_token.text, nplurals_token.position)
+        nplurals_value = _parse_int_literal(
+            nplurals_token.text, nplurals_token.position
+        )
         if nplurals_value <= 0:
-            raise ParseError(f"nplurals must be a positive integer, got {nplurals_value}", nplurals_keyword.position)
+            raise ParseError(
+                f"nplurals must be a positive integer, got {nplurals_value}",
+                nplurals_keyword.position,
+            )
         self._expect("SEMI")
         self._expect("IDENT", "plural")
         self._expect("OP", "=")
@@ -211,7 +237,9 @@ class _Parser:
         while self._match("SEMI") is not None:
             pass
         self.expect_eof()
-        return Compiled(nplurals=nplurals_value, expression=expression, source=self._source)
+        return Compiled(
+            nplurals=nplurals_value, expression=expression, source=self._source
+        )
 
     def parse_expression(self) -> Node:
         return self._parse_ternary()
@@ -222,7 +250,9 @@ class _Parser:
             then_branch = self._parse_ternary()
             self._expect("COLON")
             else_branch = self._parse_ternary()
-            return Ternary(condition=condition, then_branch=then_branch, else_branch=else_branch)
+            return Ternary(
+                condition=condition, then_branch=then_branch, else_branch=else_branch
+            )
         return condition
 
     def _parse_logical_or(self) -> Node:
@@ -300,7 +330,10 @@ class _Parser:
             return IntLit(_parse_int_literal(token.text, token.position))
         if token.kind == "IDENT":
             if token.text != "n":
-                raise ParseError(f"unknown identifier {token.text!r} at position {token.position}", token.position)
+                raise ParseError(
+                    f"unknown identifier {token.text!r} at position {token.position}",
+                    token.position,
+                )
             self._consume()
             return NRef()
         if token.kind == "LPAREN":
@@ -308,7 +341,10 @@ class _Parser:
             expression = self.parse_expression()
             self._expect("RPAREN")
             return expression
-        raise ParseError(f"unexpected token {token.text!r} at position {token.position}", token.position)
+        raise ParseError(
+            f"unexpected token {token.text!r} at position {token.position}",
+            token.position,
+        )
 
 
 def _parse_int_literal(text: str, position: int) -> int:

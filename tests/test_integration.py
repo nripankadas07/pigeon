@@ -60,6 +60,19 @@ def test_select_matches_evaluate_for_polish():
 
 
 def test_arabic_full_table():
-    expected = {0: 0, 1: 1, 2: 2, 3: 3, 5: 3, 10: 3, 11: 4, 50: 4, 99: 4, 100: 5, 101: 5, 200: 5}
+    expected = {
+        0: 0,
+        1: 1,
+        2: 2,
+        3: 3,
+        5: 3,
+        10: 3,
+        11: 4,
+        50: 4,
+        99: 4,
+        100: 5,
+        101: 5,
+        200: 5,
+    }
     for value, category in expected.items():
         assert pigeon.select("ar", value) == category, value

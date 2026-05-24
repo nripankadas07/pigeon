@@ -40,4 +40,7 @@ def test_compiled_is_dataclass_with_meaningful_attributes():
     compiled = pigeon.parse("nplurals=2; plural=(n != 1);")
     assert compiled.nplurals == 2
     assert compiled.source == "nplurals=2; plural=(n != 1);"
-    assert isinstance(compiled.expression, (pigeon.BinaryOp, pigeon.UnaryOp, pigeon.Ternary, pigeon.IntLit, pigeon.NRef))
+    assert isinstance(
+        compiled.expression,
+        (pigeon.BinaryOp, pigeon.UnaryOp, pigeon.Ternary, pigeon.IntLit, pigeon.NRef),
+    )

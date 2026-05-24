@@ -71,11 +71,13 @@ def test_unknown_locale_for_forms_for():
 
 def test_normalise_locale_rejects_non_string():
     from pigeon._locales import normalise_locale
+
     with pytest.raises(TypeError):
         normalise_locale(123)
 
 
 def test_normalise_locale_rejects_empty_string():
     from pigeon._locales import normalise_locale
+
     with pytest.raises(ValueError):
         normalise_locale("")
